@@ -3,7 +3,7 @@
 > **Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks**
 > 
 > Radford et al, 2016
->[<a href="../../data/papers/DCGAN.pdf" target="download">PDF</a>]
+>[<a href="../../docs/data/papers/DCGAN.pdf" target="download">PDF</a>]
 
 
 ## 0. Preface - Networks
@@ -18,7 +18,7 @@
 Since the network is feed-forward and multi-layered, sequential processing of the image by many convolutional layers allows for the network to learn hierarchical attributes. Three or four convolutional layers allow the network to recognize handwritten digits, and 25 layers allow the network to recognize human faces.
 
 <figure>
-<img src="../../data/imgs/cnn.png" width="700px" />
+<img src="../../docs/data/imgs/cnn.png" width="700px" />
 <figcaption>Diagram of a sample Convolutional Neural Network</figcaption>
 </figure>
 
@@ -45,7 +45,7 @@ This process continues until the generator produces data that is indistinguishab
 
 
 <figure>
-<img src="../../data/imgs/dcgan.png" width="700px">
+<img src="../../docs/data/imgs/dcgan.png" width="700px">
 </figure>
 
 ## 2. Summary
@@ -92,9 +92,9 @@ The team describes "walking in the latent space" to understand the way in which 
 Results show that an unsupervised DCGAN trained on a large image dataset can actually learn a hierarchy of semantically relevant features (trained on a dataset of pictures of bedrooms, the network learned representations for "bed", "window", "TV", etc) as a linear structure in representation space. This means they obey vector arithmetic on average. One given example is that the linear combination `vector('King') - vector('Man') + vector('Woman')` resulted in a vector whose nearest neighbor was `vector('Queen')`
 
 <figure>
-    <img src="../../data/imgs/dcgan_arithmetic.png" width="700px">
+    <img src="../../docs/data/imgs/dcgan_arithmetic.png" width="700px">
 </figure>
 
 <figure>
-    <img src="../../data/imgs/dcgan_interpolation.png" width="700px">
+    <img src="../../docs/data/imgs/dcgan_interpolation.png" width="700px">
 </figure>

@@ -3,7 +3,7 @@
 > **A Style-Based Generator Architecture for Generative Adversarial Networks**
 >
 > Karras et al, 2019
-> [<a href="../../data/papers/styleGAN1.pdf" target="download">PDF</a>]
+> [<a href="../../docs/data/papers/styleGAN1.pdf" target="download">PDF</a>]
 
 
 ## 0. Preface
@@ -21,7 +21,7 @@ The latent space can be understood as a space where each image is represented by
 
 
 <figure>
-    <img src="../../data/imgs/stylegan.png" width="400px">
+    <img src="../../docs/data/imgs/stylegan.png" width="400px">
 </figure>
 
 ## 2. Summary
@@ -61,7 +61,7 @@ The idea here is to take two different codes $w1$ and $w2$ and feed them to the 
 Besides the impact of style regularization on the FID score, which decreases when applying it during training, it is also an interesting image manipulation method. The below figure shows the results of style mixing with different crossover points:
 
 <figure>
-    <img src="../../data/imgs/stylegan_regularization.webp">
+    <img src="../../docs/data/imgs/stylegan_regularization.webp">
 </figure>
 
 Given that the network changes the dimensions of the image as it travels through it, using styles at different resolutions has a different impact on the image.  Copying (or "switching-over") the styles corresponding to coarse resolutions ($4^2 - 8^2$) means high-level aspects (such as glasses, face shape, pose) are copied from B, whereas copying the finer resolutions ($64^2 - 1024^2$) only takes minor details such as colors into account.
@@ -69,7 +69,7 @@ Given that the network changes the dimensions of the image as it travels through
 
 The figure below shows the performance of different techniques applied to various generator designs:
 <figure>
-    <img src="../../data/imgs/stylegan_techniques.png" width="400px">
+    <img src="../../docs/data/imgs/stylegan_techniques.png" width="400px">
 </figure>
 
 
@@ -96,5 +96,5 @@ $$
 Interestingly, the truncation trick in w-space allows us to control styles. As shown in the following figure, when we tend the parameter to zero we obtain the average image. On the other hand, when comparing the results obtained with 1 and -1, we can see that they are corresponding opposites (in pose, hair, age, gender..). This highlights, again, the strengths of the W-space.
 
 <figure>
- <img src="../../data/imgs/stylegan_truncation.webp" width="700px">
+ <img src="../../docs/data/imgs/stylegan_truncation.webp" width="700px">
 </figure>
