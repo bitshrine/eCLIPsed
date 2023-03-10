@@ -1,0 +1,49 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/docsify@4/themes/vue.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/marked@3"></script>
+
+    <style>
+        .highlight {
+            background-color: #42b9835a;
+            color:#42b983;
+            padding: 3pt;
+            border-radius: 5px;
+        }
+        figure {
+          text-align:center;
+        }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      window.$docsify = {
+        loadSidebar: true,
+        alias: {
+            '/.*/_sidebar.md': '_/sidebar.md'
+        },
+        subMaxLevel: 4,
+        coverpage: false,
+        latex: {
+          inlineMath   : [['$', '$'], ['\\(', '\\)']], // default
+          displayMath  : [['$$', '$$']],               // default
+        }
+      };
+    </script>
+    <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <!-- LaTeX display engine -->
+    <script src="//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!--  docsify-latex plugin -->
+    <script src="//cdn.jsdelivr.net/npm/docsify-latex@0"></script>
+  </body>
+</html>
