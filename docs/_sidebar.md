@@ -2,9 +2,9 @@
 
 
 * [Home](/)
-  * [Literature review](/web/lit/README.md)
-    - [DCGAN](/web/lit/dcgan.md)
-    - [StyleGan 1](/web/lit/stylegan1.md)
-    - [StyleGan 2](/web/lit/stylegan2.md)
+  * [Literature review](../docs/web/lit/README.md)
+    - [DCGAN](../docs/web/lit/dcgan.md)
+    - [StyleGan 1](../docs/web/lit/stylegan1.md)
+    - [StyleGan 2](../docs/web/lit/stylegan2.md)
 
-* [Resources](/data/README.md)
+* [Resources](../docs/data/README.md)
