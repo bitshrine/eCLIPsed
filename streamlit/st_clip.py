@@ -34,21 +34,21 @@ import random
 random.seed(2023)
 seed = random.getrandbits(16)
 
-@st.cache
+@st.cache_data
 def load_clip(model_name, device):
-    return clip.load(clip_model_name, device=device)
+    return clip.load(model_name, device=device)
 
 @st.cache_data
 def load_model(model_name):
-    return fetch_model(model_name)
+    model_path = fetch_model(model_name)
+    return models.get_model("stylegan2", model_path)
+
 
 # choose number of samples
 n_samples = 50000 
 
-model_path = load_model('metfaces')
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-
-G2 = models.get_model("stylegan2", model_path)
+G2 = load_model('ffhq')
 
 generator = StyleGAN2SampleGenerator(G=G2,device=device, only_w=True)
 samples = generator.generate_batch(
@@ -82,16 +82,9 @@ input_resolution = model.visual.input_resolution
 context_length = model.context_length
 vocab_size = model.vocab_size
 
-st.write("Model parameters:", f"{np.sum([int(np.prod(p.shape)) for p in model.parameters()]):,}")
-st.write("Input resolution:", input_resolution)
-st.write("Context length:", context_length)
-st.write("Vocab size:", vocab_size)
-
 # labels to feed to CLIP
-labels = ["a man", "a woman", "a child"]
+labels = ["the face of a man", "a man with a hat", "the face of a woman", "a woman with glasses", "the face of a child"]
 
-
-# wtf
 # compute the probs of each image with each label
 text = clip.tokenize(labels).to(device)
 probabilities = []
@@ -109,15 +102,24 @@ for img in images:
 # show the images and their probabilities
 count = len(labels)
 fig, ax = plt.subplots(figsize=(20, 14))
-ax.imshow(probabilities, vmin=0, vmax=1)
+
+# show colored matrix
+transposed_probs = list(map(list, zip(*probabilities)))
+ax.imshow(transposed_probs, vmin=0, vmax=1)
 # ax.colorbar()
+
+#set ticks
 ax.set_yticks(range(count))
 ax.set_yticklabels(labels, fontsize=18)
 ax.set_xticks([])
+
+# add images on top
 i = 0
 for image in images:
-    i += 1
     ax.imshow(image, extent=(i - 0.5, i + 0.5, -1.6, -0.6), origin="lower")
+    i += 1
+
+#add text in the matrix
 for x in range(count):
     for y in range(N):
         ax.text(y, x, f"{probabilities[y][x]:.2f}", ha="center", va="center", size=12)
@@ -125,7 +127,114 @@ for x in range(count):
 for side in ["left", "top", "right", "bottom"]:
     ax.spines[side].set_visible(False)
 
-ax.set_xlim([-0.5, count - 0.5])
+ax.set_xlim([-0.5, N - 0.5])
+ax.set_ylim([count + 0.5, -2])
+
+ax.set_title("Probability of each label on the image", size=20)
+
+st.pyplot(fig)
+
+############# SECOND MATRIX SAME IMAGES ######################
+# labels to feed to CLIP
+labels = ["a person with long hair long hair long hair long hair long hair long hair", "a person with short hair short hair short hair short hair short hair short hair"]
+
+# compute the probs of each image with each label
+text = clip.tokenize(labels).to(device)
+probabilities = []
+
+for img in images:
+    image = preprocess(img).unsqueeze(0).to(device)
+    with torch.no_grad():
+        image_features = model.encode_image(image)
+        text_features = model.encode_text(text)
+    
+        logits_per_image, logits_per_text = model(image, text)
+        probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+        probabilities.append(probs[0].tolist())
+
+# show the images and their probabilities
+count = len(labels)
+fig, ax = plt.subplots(figsize=(20, 14))
+
+# show colored matrix
+transposed_probs = list(map(list, zip(*probabilities)))
+ax.imshow(transposed_probs, vmin=0, vmax=1)
+# ax.colorbar()
+
+#set ticks
+ax.set_yticks(range(count))
+ax.set_yticklabels(labels, fontsize=18)
+ax.set_xticks([])
+
+# add images on top
+i = 0
+for image in images:
+    ax.imshow(image, extent=(i - 0.5, i + 0.5, -1.6, -0.6), origin="lower")
+    i += 1
+
+#add text in the matrix
+for x in range(count):
+    for y in range(N):
+        ax.text(y, x, f"{probabilities[y][x]:.2f}", ha="center", va="center", size=12)
+
+for side in ["left", "top", "right", "bottom"]:
+    ax.spines[side].set_visible(False)
+
+ax.set_xlim([-0.5, N - 0.5])
+ax.set_ylim([count + 0.5, -2])
+
+ax.set_title("Probability of each label on the image", size=20)
+
+st.pyplot(fig)
+
+
+############# SECOND MATRIX SAME IMAGES ######################
+# labels to feed to CLIP
+labels = ["a happy person", "a sad person", "a person with neutral expression"]
+
+# compute the probs of each image with each label
+text = clip.tokenize(labels).to(device)
+probabilities = []
+
+for img in images:
+    image = preprocess(img).unsqueeze(0).to(device)
+    with torch.no_grad():
+        image_features = model.encode_image(image)
+        text_features = model.encode_text(text)
+    
+        logits_per_image, logits_per_text = model(image, text)
+        probs = logits_per_image.softmax(dim=-1).cpu().numpy()
+        probabilities.append(probs[0].tolist())
+
+# show the images and their probabilities
+count = len(labels)
+fig, ax = plt.subplots(figsize=(20, 14))
+
+# show colored matrix
+transposed_probs = list(map(list, zip(*probabilities)))
+ax.imshow(transposed_probs, vmin=0, vmax=1)
+# ax.colorbar()
+
+#set ticks
+ax.set_yticks(range(count))
+ax.set_yticklabels(labels, fontsize=18)
+ax.set_xticks([])
+
+# add images on top
+i = 0
+for image in images:
+    ax.imshow(image, extent=(i - 0.5, i + 0.5, -1.6, -0.6), origin="lower")
+    i += 1
+
+#add text in the matrix
+for x in range(count):
+    for y in range(N):
+        ax.text(y, x, f"{probabilities[y][x]:.2f}", ha="center", va="center", size=12)
+
+for side in ["left", "top", "right", "bottom"]:
+    ax.spines[side].set_visible(False)
+
+ax.set_xlim([-0.5, N - 0.5])
 ax.set_ylim([count + 0.5, -2])
 
 ax.set_title("Probability of each label on the image", size=20)
