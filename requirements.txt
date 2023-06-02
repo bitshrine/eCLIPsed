@@ -1,0 +1,9 @@
+numpy
+matplotlib
+torch
+tqdm
+ninja
+pillow
+spacy
+streamlit
+boto3
